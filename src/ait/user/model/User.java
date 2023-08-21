@@ -4,8 +4,8 @@ public class User {
     private String email;
     private String password;
 
-    public User(String email, String password) {
-        this.email = email;
+    public  User(String email, String password) {
+        setEmail(email);
         this.password = password;
     }
 
@@ -18,21 +18,38 @@ public class User {
     }
 
     public void setEmail(String email) {
-        if(emailIsValid(email)){
+        if (emailIsValid(email)) {
             this.email = email;
-        }else {
-            System.out.println(email+"is not valid");
+        } else {
+            System.out.println(email + "is not valid");
         }
     }
+
     /*
     -"@" - exist and only one
     -'.' - min one dot after @
     - min two symbols after last dot
     - alphabetic, digits, @, . , _ , -
      */
-    private boolean emailIsValid(String email){
-        //TODO
-        return false;
+    private boolean emailIsValid(String email) {
+        int at = email.indexOf('@');
+        if (at == -1 || email.lastIndexOf('@') != at) {
+            return false;
+        }
+        if (email.indexOf('.', at + 1) == -1) {
+            return false;
+        }
+        if (email.lastIndexOf('.') >= email.length() - 2) {
+            return false;
+        }
+        for (int i = 0; i < email.length(); i++) {
+            char c = email.charAt(i);
+            if (!(Character.isDigit(c) || Character.isAlphabetic(c) || c == '@' || c == '.' || c == '_' || c == '-')) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void setPassword(String password) {
@@ -46,4 +63,5 @@ public class User {
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }
